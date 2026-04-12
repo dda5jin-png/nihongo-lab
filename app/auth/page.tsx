@@ -71,7 +71,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdfcfb] dark:bg-[#121212] flex items-center justify-center p-6 relative overflow-hidden selection:bg-primary/10">
+    <div className="min-h-screen bg-background dark:bg-[#121212] flex items-center justify-center p-6 relative overflow-hidden selection:bg-primary/10">
       <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden opacity-30 pointer-events-none">
         <div className="absolute -top-[20%] -right-[10%] w-[60%] h-[60%] bg-primary/5 rounded-full blur-[120px]" />
         <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px]" />
@@ -82,19 +82,20 @@ export default function AuthPage() {
         animate={{ opacity: 1, scale: 1 }}
         className="w-full max-w-xl"
       >
-        <div className="bg-white dark:bg-zinc-900/50 backdrop-blur-xl rounded-[3rem] p-10 md:p-16 shadow-premium border border-zinc-100 dark:border-zinc-800">
+        <div className="premium-card rounded-[3rem] p-10 md:p-16 backdrop-blur-xl border" style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)", boxShadow: "var(--shadow-lift)" }}>
             <div className="flex flex-col items-center gap-6 mb-12">
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                className="w-24 h-24 md:w-28 md:h-28 bg-white rounded-[32px] shadow-premium flex items-center justify-center overflow-hidden border border-zinc-100"
+                className="w-24 h-24 md:w-28 md:h-28 rounded-[32px] flex items-center justify-center overflow-hidden border"
+                style={{ backgroundColor: "var(--surface-strong)", borderColor: "var(--border)", boxShadow: "var(--shadow-soft)" }}
               >
-                <img src="/logo.png" alt="Nihongo LAB" className="w-full h-full object-contain p-4" />
+                <img src="/logo-mark.svg" alt="Nihongo LAB" className="w-full h-full object-contain p-3" />
               </motion.div>
               <div className="text-center">
-                <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-4 font-display">
+                <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-4 font-display" style={{ color: "var(--text-strong)" }}>
                   にほんご <span className="text-primary">(일본어)</span> LAB
                 </h1>
-                <p className="text-lg text-zinc-400 font-medium leading-tight">
+                <p className="text-lg font-medium leading-[1.7]" style={{ color: "var(--text-muted)" }}>
                   일본어 공부를 시작하는 모든 분을 위한 가장 쉬운 연구소
                 </p>
               </div>
@@ -102,26 +103,26 @@ export default function AuthPage() {
 
             {/* Quick Guide Section */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-              <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-[2rem] border border-zinc-100 dark:border-zinc-800 flex flex-col items-center text-center">
+              <div className="p-6 rounded-[2rem] border flex flex-col items-center text-center" style={{ backgroundColor: "var(--surface-muted)", borderColor: "var(--border)" }}>
                 <div className="w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-4">
                   <LogIn size={24} />
                 </div>
-                <h3 className="font-black mb-2">간편 로그인</h3>
-                <p className="text-sm text-zinc-400 font-medium">구글/카카오로<br/>3초 만에 시작</p>
+                <h3 className="font-black mb-2" style={{ color: "var(--text-strong)" }}>간편 로그인</h3>
+                <p className="text-sm font-medium leading-[1.7]" style={{ color: "var(--text-muted)" }}>구글/카카오로<br/>3초 만에 시작</p>
               </div>
-              <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-[2rem] border border-zinc-100 dark:border-zinc-800 flex flex-col items-center text-center">
+              <div className="p-6 rounded-[2rem] border flex flex-col items-center text-center" style={{ backgroundColor: "var(--surface-muted)", borderColor: "var(--border)" }}>
                 <div className="w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-4">
                   <Mail size={24} />
                 </div>
-                <h3 className="font-black mb-2">오늘의 단어</h3>
-                <p className="text-sm text-zinc-400 font-medium">AI가 추천하는<br/>기초 단어 학습</p>
+                <h3 className="font-black mb-2" style={{ color: "var(--text-strong)" }}>오늘의 단어</h3>
+                <p className="text-sm font-medium leading-[1.7]" style={{ color: "var(--text-muted)" }}>AI가 추천하는<br/>기초 단어 학습</p>
               </div>
-              <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-[2rem] border border-zinc-100 dark:border-zinc-800 flex flex-col items-center text-center">
+              <div className="p-6 rounded-[2rem] border flex flex-col items-center text-center" style={{ backgroundColor: "var(--surface-muted)", borderColor: "var(--border)" }}>
                 <div className="w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-4">
                   <UserPlus size={24} />
                 </div>
-                <h3 className="font-black mb-2">학습 기록</h3>
-                <p className="text-sm text-zinc-400 font-medium">나만의 보관함에<br/>저장하고 복습</p>
+                <h3 className="font-black mb-2" style={{ color: "var(--text-strong)" }}>학습 기록</h3>
+                <p className="text-sm font-medium leading-[1.7]" style={{ color: "var(--text-muted)" }}>나만의 보관함에<br/>저장하고 복습</p>
               </div>
             </div>
 
@@ -144,7 +145,8 @@ export default function AuthPage() {
                     <User className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-primary transition-colors" size={24} />
                     <input
                       type="text" placeholder="성함" required
-                      className="w-full h-16 pl-14 pr-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl border-none focus:ring-2 focus:ring-primary/20 text-lg transition-all"
+                      className="w-full h-16 pl-14 pr-6 rounded-2xl border text-lg transition-all"
+                      style={{ backgroundColor: "var(--surface-muted)", borderColor: "var(--border)", color: "var(--text-strong)" }}
                       value={name} onChange={(e) => setName(e.target.value)}
                     />
                   </div>
@@ -156,7 +158,8 @@ export default function AuthPage() {
               <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-primary transition-colors" size={24} />
               <input
                 type="email" placeholder="이메일 주소" required
-                className="w-full h-16 pl-14 pr-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl border-none focus:ring-2 focus:ring-primary/20 text-lg transition-all"
+                className="w-full h-16 pl-14 pr-6 rounded-2xl border text-lg transition-all"
+                style={{ backgroundColor: "var(--surface-muted)", borderColor: "var(--border)", color: "var(--text-strong)" }}
                 value={email} onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -165,7 +168,8 @@ export default function AuthPage() {
               <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-primary transition-colors" size={24} />
               <input
                 type="password" placeholder="비밀번호" required
-                className="w-full h-16 pl-14 pr-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl border-none focus:ring-2 focus:ring-primary/20 text-lg transition-all"
+                className="w-full h-16 pl-14 pr-6 rounded-2xl border text-lg transition-all"
+                style={{ backgroundColor: "var(--surface-muted)", borderColor: "var(--border)", color: "var(--text-strong)" }}
                 value={password} onChange={(e) => setPassword(e.target.value)}
               />
             </div>
@@ -185,13 +189,14 @@ export default function AuthPage() {
                 <div className="w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent" />
               </div>
               <div className="relative flex justify-center text-sm uppercase">
-                <span className="bg-white dark:bg-zinc-900 px-4 text-zinc-400 font-bold tracking-widest">간편 로그인</span>
+                <span className="px-4 font-bold tracking-widest" style={{ backgroundColor: "var(--surface)", color: "var(--text-soft)" }}>간편 로그인</span>
               </div>
             </div>
 
             <button
               onClick={handleGoogleLogin}
-              className="w-full h-16 bg-white dark:bg-zinc-800 border-2 border-zinc-100 dark:border-zinc-700 text-zinc-700 dark:text-zinc-200 font-bold rounded-2xl hover:bg-zinc-50 transition-all flex items-center justify-center gap-4 group"
+              className="luxury-button w-full h-16 border font-bold rounded-2xl transition-all flex items-center justify-center gap-4 group"
+              style={{ backgroundColor: "var(--surface-strong)", borderColor: "var(--border)", color: "var(--text-strong)" }}
             >
               <img src="https://www.google.com/favicon.ico" alt="GP" className="w-6 h-6 grayscale group-hover:grayscale-0 transition-all" />
               <span className="text-lg">구글로 3초 만에 시작하기</span>
@@ -208,7 +213,7 @@ export default function AuthPage() {
             </button>
           </div>
 
-          <p className="mt-12 text-center text-zinc-400 font-medium">
+          <p className="mt-12 text-center font-medium" style={{ color: "var(--text-muted)" }}>
             {isLogin ? "아직 회원이 아니신가요?" : "이미 가입하셨나요?"} {" "}
             <button
               onClick={() => setIsLogin(!isLogin)}

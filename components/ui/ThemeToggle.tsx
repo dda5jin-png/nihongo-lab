@@ -15,14 +15,15 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="btn-premium glass-effect touch-target relative overflow-hidden group border-none"
+      className="btn-premium touch-target relative overflow-hidden group"
+      style={{ background: "linear-gradient(180deg, var(--surface-strong), var(--surface))" }}
       title="테마 전환 (밝게/어둡게)"
     >
       <div className="relative w-8 h-8">
-        <Sun className={`absolute inset-0 h-full w-full transition-all duration-500 transform ${
+        <Sun className={`absolute inset-0 h-full w-full text-[var(--primary)] transition-all duration-500 transform ${
           theme === 'dark' ? 'translate-y-12 opacity-0 rotate-90' : 'translate-y-0 opacity-100 rotate-0'
         }`} />
-        <Moon className={`absolute inset-0 h-full w-full transition-all duration-500 transform ${
+        <Moon className={`absolute inset-0 h-full w-full text-[var(--text-strong)] transition-all duration-500 transform ${
           theme === 'dark' ? 'translate-y-0 opacity-100 rotate-0' : '-translate-y-12 opacity-0 -rotate-90'
         }`} />
       </div>

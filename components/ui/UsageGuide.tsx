@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle2, Play, Smartphone, RotateCcw } from "lucide-react";
+import { X, CheckCircle2, Play, Smartphone, LibraryBig } from "lucide-react";
 
 interface UsageGuideProps {
   isOpen: boolean;
@@ -47,16 +47,38 @@ export default function UsageGuide({ isOpen, onClose }: UsageGuideProps) {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-lg bg-white dark:bg-zinc-900 rounded-[32px] overflow-hidden shadow-2xl border-2 border-black dark:border-white"
+            className="relative w-full max-w-lg rounded-[32px] overflow-hidden border"
+            style={{ backgroundColor: "var(--surface-strong)", borderColor: "var(--border)", boxShadow: "var(--shadow-card)" }}
           >
-            <div className="p-8 pb-4 flex justify-between items-center bg-white border-b-2 border-black dark:bg-zinc-800/50">
-              <h2 className="text-3xl font-black tracking-tight text-black dark:text-white">처음이신가요? ✨</h2>
-              <button 
-                onClick={onClose}
-                className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full transition-colors border-2 border-black"
-              >
-                <X size={32} className="text-black dark:text-white" />
-              </button>
+            <div className="p-8 pb-5 border-b relative overflow-hidden" style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)" }}>
+              <div className="hero-orb w-28 h-28 -top-6 right-10 bg-primary/10" />
+              <div className="flex justify-between items-start gap-4 relative z-10">
+                <div className="space-y-4">
+                  <div className="luxury-label">
+                    <LibraryBig size={14} className="text-primary" />
+                    Welcome Guide
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-[1.4rem] border flex items-center justify-center" style={{ background: "linear-gradient(180deg, var(--surface-strong), var(--surface))", borderColor: "var(--border)", boxShadow: "var(--shadow-soft)" }}>
+                      <img src="/logo-mark.svg" alt="Nihongo LAB mark" className="w-full h-full object-contain p-2.5" />
+                    </div>
+                    <div className="space-y-2">
+                      <h2 className="text-3xl font-black tracking-tight" style={{ color: "var(--text-strong)" }}>처음이신가요? ✨</h2>
+                      <p className="font-medium leading-[1.7]" style={{ color: "var(--text-muted)" }}>
+                        차분한 흐름으로 가입하고, 듣고, 뒤집고, 다시 이어가는 법을 안내해드릴게요.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <button 
+                  onClick={onClose}
+                  className="p-2 rounded-full transition-colors border shrink-0"
+                  style={{ borderColor: "var(--border)", color: "var(--text-strong)", backgroundColor: "var(--surface-muted)" }}
+                >
+                  <X size={32} />
+                </button>
+              </div>
             </div>
             
             <div className="p-8 space-y-6 max-h-[70vh] overflow-y-auto">
@@ -66,14 +88,15 @@ export default function UsageGuide({ isOpen, onClose }: UsageGuideProps) {
                    initial={{ opacity: 0, x: -20 }}
                    animate={{ opacity: 1, x: 0 }}
                    transition={{ delay: idx * 0.1 }}
-                   className="flex gap-4 items-start p-6 rounded-2xl bg-white border-2 border-black dark:bg-zinc-800/30 shadow-sm"
+                   className="flex gap-4 items-start p-6 rounded-2xl border shadow-sm"
+                   style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)" }}
                  >
-                   <div className="shrink-0 p-3 bg-zinc-100 dark:bg-zinc-800 rounded-xl border-2 border-black shadow-sm">
+                   <div className="shrink-0 p-3 rounded-xl border shadow-sm" style={{ backgroundColor: "var(--surface-muted)", borderColor: "var(--border)" }}>
                      {step.icon}
                    </div>
                    <div>
-                     <h3 className="text-2xl font-black mb-1 text-black dark:text-white">{step.title}</h3>
-                     <p className="text-black dark:text-zinc-400 font-bold leading-tight">{step.description}</p>
+                     <h3 className="text-2xl font-black mb-1" style={{ color: "var(--text-strong)" }}>{step.title}</h3>
+                     <p className="font-semibold leading-[1.7]" style={{ color: "var(--text-muted)" }}>{step.description}</p>
                    </div>
                  </motion.div>
                ))}
@@ -82,7 +105,8 @@ export default function UsageGuide({ isOpen, onClose }: UsageGuideProps) {
             <div className="p-8 pt-4">
               <button
                 onClick={onClose}
-                className="w-full h-16 bg-primary text-white text-2xl font-black rounded-2xl border-2 border-black hover:brightness-110 transition-all shadow-lg shadow-primary/20"
+                className="w-full h-16 bg-primary text-white text-2xl font-black rounded-2xl border hover:brightness-110 transition-all shadow-lg shadow-primary/20"
+                style={{ borderColor: "color-mix(in srgb, var(--primary) 45%, white)" }}
               >
                 네, 이해했습니다!
               </button>
