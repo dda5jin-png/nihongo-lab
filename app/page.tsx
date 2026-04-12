@@ -47,7 +47,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#fdfdfd] dark:bg-zinc-950 font-sans selection:bg-primary/10 flex flex-col">
+    <div className="min-h-screen bg-background dark:bg-zinc-950 font-sans selection:bg-primary/10 flex flex-col">
       <UsageGuide isOpen={showGuide} onClose={() => setShowGuide(false)} />
       
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-10 md:py-20 flex-1 w-full">

@@ -45,12 +45,12 @@
 }
 
 :root {
-  --background: #fdfcfb;
-  --foreground: #1a1a1a;
+  --background: #fcfcf3; /* Warm Cream / Beige */
+  --foreground: #000000; /* Sharp Black */
   --card: #ffffff;
-  --card-foreground: #1a1a1a;
+  --card-foreground: #000000;
   --popover: #ffffff;
-  --popover-foreground: #1a1a1a;
+  --popover-foreground: #000000;
   --primary: #e11d48;
   --primary-foreground: #ffffff;
   --secondary: #f4f4f5;
@@ -124,11 +124,11 @@ h1, h2, h3, h4, .font-display {
   }
 }
 
-/* Premium UI Utilities */
+/* UI Utilities */
 .glass-effect {
-  background: rgba(var(--background), 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
 }
 
 .premium-card {

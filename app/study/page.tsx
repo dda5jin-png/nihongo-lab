@@ -96,7 +96,7 @@ function StudyContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fdfdfd] dark:bg-zinc-950">
+      <div className="min-h-screen flex items-center justify-center bg-background dark:bg-zinc-950">
         <div className="flex flex-col items-center gap-4">
           <motion.div 
             animate={{ rotate: 360 }}
@@ -110,7 +110,7 @@ function StudyContent() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#fdfdfd] dark:bg-zinc-950 overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-background dark:bg-zinc-950 overflow-hidden">
       <div className="w-full bg-white dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-800 py-4">
         <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-4">
           <div className="flex flex-col items-center">
@@ -171,7 +171,7 @@ function StudyContent() {
 export default function StudyPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-[#fdfdfd] dark:bg-zinc-950 text-xl font-bold text-zinc-400">
+      <div className="min-h-screen flex items-center justify-center bg-background dark:bg-zinc-950 text-xl font-bold text-zinc-400">
         준비 중...
       </div>
     }>
