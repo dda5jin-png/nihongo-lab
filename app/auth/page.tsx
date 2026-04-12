@@ -8,12 +8,12 @@ import {
   onAuthStateChanged,
   signInWithPopup,
   GoogleAuthProvider,
+  OAuthProvider,
   updateProfile 
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { motion, AnimatePresence } from "framer-motion";
 import { LogIn, UserPlus, Mail, Lock, User, ArrowRight } from "lucide-react";
-import Link from "next/link";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -60,9 +60,18 @@ export default function AuthPage() {
     }
   };
 
+  const handleKakaoLogin = async () => {
+    const provider = new OAuthProvider("oidc.kakao");
+    try {
+      await signInWithPopup(auth, provider);
+      router.push("/");
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#fdfcfb] dark:bg-[#121212] flex items-center justify-center p-6 relative overflow-hidden selection:bg-primary/10">
-      {/* Soft Background Decoration */}
       <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden opacity-30 pointer-events-none">
         <div className="absolute -top-[20%] -right-[10%] w-[60%] h-[60%] bg-primary/5 rounded-full blur-[120px]" />
         <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px]" />
@@ -74,7 +83,6 @@ export default function AuthPage() {
         className="w-full max-w-xl"
       >
         <div className="bg-white dark:bg-zinc-900/50 backdrop-blur-xl rounded-[3rem] p-10 md:p-16 shadow-premium border border-zinc-100 dark:border-zinc-800">
-          {/* Logo & Header */}
           <div className="flex flex-col items-center gap-8 mb-12">
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -146,8 +154,7 @@ export default function AuthPage() {
             </button>
           </form>
 
-          {/* Social Social Login */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent" />
@@ -166,7 +173,7 @@ export default function AuthPage() {
             </button>
 
             <button
-              onClick={() => alert("카카오 로그인은 현재 점검 중입니다. (OIDC 설정 필요)")}
+              onClick={handleKakaoLogin}
               className="w-full h-16 bg-[#FEE500] text-[#191919] font-bold rounded-2xl hover:brightness-95 transition-all flex items-center justify-center gap-4 group"
             >
               <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
