@@ -1,16 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Home, Sparkles, User as UserIcon } from "lucide-react";
 import FlashCard from "@/components/ui/FlashCard";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
-export default function StudyPage() {
+function StudyContent() {
   const searchParams = useSearchParams();
   const level = searchParams.get("level") || "1";
   const [user, setUser] = useState<User | null>(null);
@@ -19,7 +18,6 @@ export default function StudyPage() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   
-  // Mock data for initial testing
   const cards = [
     { id: "c1", japanese: "こんにちは", reading: "Konnichiwa", meaning: "안녕하세요" },
     { id: "c2", japanese: "ありがとう", reading: "Arigatou", meaning: "고맙습니다" },
@@ -28,7 +26,6 @@ export default function StudyPage() {
     { id: "c5", japanese: "はい", reading: "Hai", meaning: "네" },
   ];
 
-  // Auth State Monitor
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -41,12 +38,10 @@ export default function StudyPage() {
     return () => unsubscribe();
   }, [level]);
 
-  // Load Progress from Firestore
   const loadProgress = async (userId: string) => {
     try {
       const docRef = doc(db, "user_progress", `${userId}_level_${level}`);
       const docSnap = await getDoc(docRef);
-      
       if (docSnap.exists()) {
         const data = docSnap.data();
         setCurrentIndex(data.lastIndex || 0);
@@ -58,7 +53,6 @@ export default function StudyPage() {
     }
   };
 
-  // Save Progress to Firestore
   const saveProgress = async (index: number) => {
     if (!user) return;
     try {
@@ -95,8 +89,7 @@ export default function StudyPage() {
   };
 
   const handleStatusChange = (status: string) => {
-    console.log(`Card status changed to: ${status}`);
-    if (status === "mastered" || status === "confused") {
+    if (status === "learned" || status === "review") {
       setTimeout(handleNext, 800);
     }
   };
@@ -110,7 +103,7 @@ export default function StudyPage() {
             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full"
           />
-          <p className="text-xl font-bold text-zinc-400">학습 데이터를 불러오는 중...</p>
+          <p className="text-xl font-bold text-zinc-400">데이터를 불러오는 중...</p>
         </div>
       </div>
     );
@@ -118,7 +111,6 @@ export default function StudyPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#fdfdfd] dark:bg-zinc-950 overflow-hidden">
-      {/* Premium Progress Header */}
       <div className="fixed top-0 left-0 w-full z-50">
         <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-zinc-100 dark:border-zinc-800">
           <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -153,7 +145,7 @@ export default function StudyPage() {
               ) : (
                 <button 
                   onClick={() => router.push("/auth")}
-                  className="btn-premium py-2 px-6 h-12 text-sm bg-secondary text-primary border-none shadow-none"
+                  className="btn-premium px-6 h-12 text-sm bg-secondary text-primary border-none shadow-none"
                 >
                   로그인
                 </button>
@@ -161,8 +153,6 @@ export default function StudyPage() {
             </div>
           </div>
         </div>
-        
-        {/* Animated Progress Bar */}
         <div className="h-1.5 w-full bg-zinc-100 dark:bg-zinc-800">
           <motion.div 
             initial={{ width: 0 }}
@@ -173,10 +163,8 @@ export default function StudyPage() {
         </div>
       </div>
 
-      {/* Main Study Area */}
       <main className="flex-1 flex flex-col items-center justify-center pt-24 px-6 relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] -z-10" />
-
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -191,51 +179,32 @@ export default function StudyPage() {
               reading={currentCard.reading}
               meaning={currentCard.meaning}
               onStatusChange={handleStatusChange}
+              onNext={handleNext}
+              onPrev={handlePrev}
             />
           </motion.div>
         </AnimatePresence>
-        
-        <div className="mt-16 flex items-center gap-8">
-          <button 
-            disabled={currentIndex === 0}
-            onClick={handlePrev}
-            className={`w-20 h-20 rounded-full flex items-center justify-center transition-all shadow-lg border ${
-              currentIndex === 0 
-                ? 'bg-zinc-50 text-zinc-300 border-zinc-100 cursor-not-allowed' 
-                : 'bg-white dark:bg-zinc-900 text-zinc-600 border-zinc-200 hover:border-primary hover:text-primary active:scale-90'
-            }`}
-          >
-            <ChevronLeft size={40} />
-          </button>
-          
-          <button 
-            onClick={handleNext}
-            className={`px-12 h-20 rounded-full flex items-center gap-4 transition-all shadow-xl font-black text-2xl ${
-              currentIndex === cards.length - 1
-                ? 'bg-green-600 text-white shadow-green-200'
-                : 'bg-primary text-white shadow-primary/20 hover:scale-105 active:scale-95'
-            }`}
-          >
-            {currentIndex === cards.length - 1 ? (
-              <span>학습 완료 🎉</span>
-            ) : (
-              <>
-                <span>다음으로</span>
-                <ChevronRight size={32} />
-              </>
-            )}
-          </button>
-        </div>
       </main>
 
       <footer className="py-12 flex flex-col items-center gap-4 text-zinc-400 font-bold">
         <div className="flex items-center gap-6 text-senior-md">
           <span className="flex items-center gap-2"><span className="text-green-500">✅</span> 외움</span>
           <span className="flex items-center gap-2"><span className="text-orange-500">❓</span> 헷갈림</span>
-          <span className="flex items-center gap-2"><span className="text-amber-400">⭐</span> 중요</span>
         </div>
         <p className="opacity-50">카드를 터치하면 뜻을 볼 수 있습니다.</p>
       </footer>
     </div>
+  );
+}
+
+export default function StudyPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#fdfdfd] dark:bg-zinc-950 text-xl font-bold text-zinc-400">
+        준비 중...
+      </div>
+    }>
+      <StudyContent />
+    </Suspense>
   );
 }

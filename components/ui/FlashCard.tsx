@@ -10,9 +10,10 @@ interface FlashCardProps {
   meaning: string;
   onNext?: () => void;
   onPrev?: () => void;
+  onStatusChange?: (status: string) => void;
 }
 
-export default function FlashCard({ japanese, reading, meaning, onNext, onPrev }: FlashCardProps) {
+export default function FlashCard({ japanese, reading, meaning, onNext, onPrev, onStatusChange }: FlashCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const playTTS = (text: string) => {
@@ -64,11 +65,33 @@ export default function FlashCard({ japanese, reading, meaning, onNext, onPrev }
               exit={{ opacity: 0, y: -20 }}
               className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center bg-primary/5 dark:bg-primary/10"
             >
-              <div className="space-y-6">
+              <div className="space-y-6 mb-12">
                 <span className="text-lg font-black text-primary tracking-[0.2em] uppercase opacity-50">한국어 뜻</span>
                 <p className="text-7xl md:text-9xl font-black text-primary drop-shadow-sm leading-tight">
                   {meaning}
                 </p>
+              </div>
+
+              {/* Status Action Buttons */}
+              <div className="flex gap-4 w-full max-w-sm">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onStatusChange?.("learned");
+                  }}
+                  className="flex-1 h-16 bg-green-500/10 text-green-600 rounded-2xl flex items-center justify-center gap-2 border-2 border-green-500/20 hover:bg-green-500 hover:text-white transition-all font-bold text-lg"
+                >
+                  <span className="text-2xl">✅</span> 외웠어요
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onStatusChange?.("review");
+                  }}
+                  className="flex-1 h-16 bg-orange-500/10 text-orange-600 rounded-2xl flex items-center justify-center gap-2 border-2 border-orange-500/20 hover:bg-orange-500 hover:text-white transition-all font-bold text-lg"
+                >
+                  <span className="text-2xl">❓</span> 헷갈려요
+                </button>
               </div>
             </motion.div>
           )}
