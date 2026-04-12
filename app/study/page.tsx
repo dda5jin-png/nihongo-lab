@@ -111,55 +111,26 @@ function StudyContent() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#fdfdfd] dark:bg-zinc-950 overflow-hidden">
-      <div className="fixed top-0 left-0 w-full z-50">
-        <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-zinc-100 dark:border-zinc-800">
-          <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <button 
-              onClick={() => router.push("/")}
-              className="flex items-center gap-2 group text-zinc-400 hover:text-primary transition-colors"
-            >
-              <div className="p-2 rounded-xl group-hover:bg-primary/5 transition-colors">
-                <Home size={24} />
-              </div>
-              <span className="font-bold text-lg hidden md:block">홈으로</span>
-            </button>
-
-            <div className="flex flex-col items-center">
-              <div className="flex items-center gap-2 mb-1">
-                <Sparkles size={16} className="text-primary opacity-50" />
-                <span className="text-sm font-black tracking-widest text-zinc-400 uppercase">Mission Level 0{level}</span>
-              </div>
-              <div className="text-2xl font-black text-primary tabular-nums">
-                {currentIndex + 1} <span className="text-zinc-300 font-medium">/</span> {cards.length}
-              </div>
+      <div className="w-full bg-white dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-800 py-4">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center">
+            <div className="flex items-center gap-2 mb-1">
+              <Sparkles size={16} className="text-primary opacity-50" />
+              <span className="text-sm font-black tracking-widest text-zinc-400 uppercase">Mission Level 0{level}</span>
             </div>
-
-            <div className="flex items-center gap-3">
-              {user ? (
-                <div className="flex items-center gap-3 bg-zinc-50 dark:bg-zinc-800 px-4 py-2 rounded-2xl border border-zinc-100 dark:border-zinc-700">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                    <UserIcon size={18} />
-                  </div>
-                  <span className="font-bold text-zinc-600 dark:text-zinc-300">{user.displayName || "수강생"}님</span>
-                </div>
-              ) : (
-                <button 
-                  onClick={() => router.push("/auth")}
-                  className="btn-premium px-6 h-12 text-sm bg-secondary text-primary border-none shadow-none"
-                >
-                  로그인
-                </button>
-              )}
+            <div className="text-2xl font-black text-primary tabular-nums">
+              {currentIndex + 1} <span className="text-zinc-300 font-medium">/</span> {cards.length}
             </div>
           </div>
-        </div>
-        <div className="h-1.5 w-full bg-zinc-100 dark:bg-zinc-800">
-          <motion.div 
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ type: "spring", stiffness: 50, damping: 20 }}
-            className="h-full bg-primary shadow-[0_0_10px_rgba(59,130,246,0.5)]"
-          />
+          
+          <div className="h-1.5 w-full max-w-2xl bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ type: "spring", stiffness: 50, damping: 20 }}
+              className="h-full bg-primary shadow-[0_0_10px_rgba(59,130,246,0.5)]"
+            />
+          </div>
         </div>
       </div>
 
