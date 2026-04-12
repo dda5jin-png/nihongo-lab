@@ -164,6 +164,16 @@ export default function AuthPage() {
               <img src="https://www.google.com/favicon.ico" alt="GP" className="w-6 h-6 grayscale group-hover:grayscale-0 transition-all" />
               <span className="text-lg">구글로 3초 만에 시작하기</span>
             </button>
+
+            <button
+              onClick={() => alert("카카오 로그인은 현재 점검 중입니다. (OIDC 설정 필요)")}
+              className="w-full h-16 bg-[#FEE500] text-[#191919] font-bold rounded-2xl hover:brightness-95 transition-all flex items-center justify-center gap-4 group"
+            >
+              <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
+                <path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.553 1.706 4.8 4.27 6.054l-.81 2.982c-.048.18.063.37.247.42.052.015.105.02.158.02.13 0 .252-.075.303-.198l3.483-2.31c.44.04.887.062 1.344.062 4.97 0 9-3.185 9-7.115S16.97 3 12 3z" />
+              </svg>
+              <span className="text-lg">카카오톡으로 시작하기</span>
+            </button>
           </div>
 
           <p className="mt-12 text-center text-zinc-400 font-medium">
