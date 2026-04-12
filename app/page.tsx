@@ -67,7 +67,7 @@ export default function Home() {
               <img src="/logo.png" alt="Nihongo LAB" className="w-full h-full object-contain p-1.5" />
             </div>
             <span className="text-2xl font-black tracking-tighter text-zinc-800 dark:text-white font-display">
-              니혼고 <span className="text-primary">LAB</span>
+              にほんご <span className="text-primary">(일본어)</span> LAB
             </span>
           </div>
 
@@ -134,7 +134,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 className="text-6xl md:text-9xl font-black tracking-tighter leading-none mb-4 font-display"
               >
-                니혼고 <span className="text-primary">LAB</span>
+                にほんご <span className="text-primary text-5xl md:text-7xl block md:inline">(일본어)</span> LAB
               </motion.h1>
               
               <motion.button 
@@ -143,7 +143,7 @@ export default function Home() {
                 className="mx-auto px-6 py-3 bg-white dark:bg-zinc-900 rounded-3xl text-lg font-bold text-zinc-400 hover:text-primary transition-all flex items-center gap-2 shadow-sm border border-zinc-100 dark:border-zinc-800"
               >
                 <HelpCircle size={24} />
-                <span>니혼고 LAB 사용법</span>
+                <span>にほんご (일본어) LAB 사용법</span>
               </motion.button>
             </div>
           </div>
@@ -152,7 +152,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
             className="text-2xl md:text-4xl text-zinc-400 dark:text-zinc-500 font-medium leading-tight max-w-3xl mx-auto text-center"
           >
-            부드럽고 우아한 시니어 맞춤형 <br className="hidden sm:block" />
+            누구에게나 즐겁고 세상에서 가장 쉬운 <br className="hidden sm:block" />
             일본어 학습 연구소에 오신 것을 환영합니다.
           </motion.p>
         </section>
@@ -226,7 +226,7 @@ export default function Home() {
         </section>
         {/* Footer */}
         <footer className="mt-20 pt-10 border-t border-zinc-100 dark:border-zinc-800 text-center">
-          <p className="text-zinc-400 font-medium">© 2026 니혼고 LAB. 시니어를 위한 가장 쉬운 일본어 연구소.</p>
+          <p className="text-zinc-400 font-medium">© 2026 に혼고 (일본어) LAB. 일본어를 시작하는 모든 분을 위한 가장 쉬운 연구소.</p>
         </footer>
       </main>
     </div>

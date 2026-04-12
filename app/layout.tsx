@@ -10,8 +10,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "니혼고 LAB | 시니어 맞춤형 일본어 학습",
-  description: "시니어분들을 위한 가장 쉽고 즐거운 일본어 학습 연구소",
+  title: "にほんご (일본어) LAB | 세상에서 가장 쉬운 일본어 학습",
+  description: "일본어 공부를 시작하는 모든 분을 위한 가장 쉽고 즐거운 연구소, にほん고 (일본어) LAB입니다.",
 };
 
 export default function RootLayout({
@@ -35,12 +35,10 @@ export default function RootLayout({
             {/* Global Modern Header */}
             <header className="sticky top-0 z-50 w-full glass-effect">
               <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-                    <div className="flex items-center gap-2 group cursor-pointer">
-                      <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-black text-xl shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
-                        N
-                      </div>
-                      <span className="text-2xl font-black tracking-tighter text-zinc-800 dark:text-white">
-                        니혼고 <span className="text-primary italic">LAB</span>
+                    <div className="flex items-center gap-3 group cursor-pointer">
+                      <img src="/logo.png" alt="Nihongo LAB" className="w-10 h-10 object-contain group-hover:rotate-6 transition-transform" />
+                      <span className="text-2xl font-black tracking-tighter text-zinc-900 dark:text-white">
+                        にほんご <span className="text-primary">(일본어)</span> LAB
                       </span>
                     </div>
                 <div className="flex items-center gap-4">

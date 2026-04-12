@@ -83,22 +83,47 @@ export default function AuthPage() {
         className="w-full max-w-xl"
       >
         <div className="bg-white dark:bg-zinc-900/50 backdrop-blur-xl rounded-[3rem] p-10 md:p-16 shadow-premium border border-zinc-100 dark:border-zinc-800">
-          <div className="flex flex-col items-center gap-8 mb-12">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="w-28 h-28 md:w-36 md:h-36 bg-white rounded-[40px] shadow-premium flex items-center justify-center overflow-hidden border border-zinc-100"
-            >
-              <img src="/logo.png" alt="Nihongo LAB" className="w-full h-full object-contain p-5" />
-            </motion.div>
-            <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-4 font-display">
-                니혼고 <span className="text-primary">LAB</span>
-              </h1>
-              <p className="text-xl text-zinc-400 font-medium leading-tight">
-                {isLogin ? "부드럽고 우아한 학습의 시작" : "연구소의 소중한 회원이 되어보세요"}
-              </p>
+            <div className="flex flex-col items-center gap-6 mb-12">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="w-24 h-24 md:w-28 md:h-28 bg-white rounded-[32px] shadow-premium flex items-center justify-center overflow-hidden border border-zinc-100"
+              >
+                <img src="/logo.png" alt="Nihongo LAB" className="w-full h-full object-contain p-4" />
+              </motion.div>
+              <div className="text-center">
+                <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-4 font-display">
+                  にほんご <span className="text-primary">(일본어)</span> LAB
+                </h1>
+                <p className="text-lg text-zinc-400 font-medium leading-tight">
+                  일본어 공부를 시작하는 모든 분을 위한 가장 쉬운 연구소
+                </p>
+              </div>
             </div>
-          </div>
+
+            {/* Quick Guide Section */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+              <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-[2rem] border border-zinc-100 dark:border-zinc-800 flex flex-col items-center text-center">
+                <div className="w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-4">
+                  <LogIn size={24} />
+                </div>
+                <h3 className="font-black mb-2">간편 로그인</h3>
+                <p className="text-sm text-zinc-400 font-medium">구글/카카오로<br/>3초 만에 시작</p>
+              </div>
+              <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-[2rem] border border-zinc-100 dark:border-zinc-800 flex flex-col items-center text-center">
+                <div className="w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-4">
+                  <Mail size={24} />
+                </div>
+                <h3 className="font-black mb-2">오늘의 단어</h3>
+                <p className="text-sm text-zinc-400 font-medium">AI가 추천하는<br/>기초 단어 학습</p>
+              </div>
+              <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-[2rem] border border-zinc-100 dark:border-zinc-800 flex flex-col items-center text-center">
+                <div className="w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-4">
+                  <UserPlus size={24} />
+                </div>
+                <h3 className="font-black mb-2">학습 기록</h3>
+                <p className="text-sm text-zinc-400 font-medium">나만의 보관함에<br/>저장하고 복습</p>
+              </div>
+            </div>
 
           {error && (
             <motion.div 
