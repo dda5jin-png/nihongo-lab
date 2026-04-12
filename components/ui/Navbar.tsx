@@ -47,14 +47,14 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background border-b border-zinc-200 dark:border-zinc-800 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 md:h-20 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full bg-white dark:bg-zinc-950 border-b-2 border-black dark:border-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 h-12 md:h-16 flex items-center justify-between">
         {/* Branding */}
         <div className="flex items-center gap-3 group cursor-pointer" onClick={() => router.push("/")}>
-          <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm group-hover:rotate-6 transition-all overflow-hidden border border-zinc-100 dark:border-zinc-800">
+          <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-2xl flex items-center justify-center shadow-md group-hover:rotate-6 transition-all overflow-hidden border-2 border-black dark:border-white">
             <img src="/logo.png" alt="Nihongo LAB" className="w-full h-full object-contain p-1.5" />
           </div>
-          <span className="text-xl md:text-2xl font-black tracking-tighter text-zinc-900 dark:text-white font-display">
+          <span className="text-xl md:text-2xl font-black tracking-tighter text-black dark:text-white font-display">
             にほんご <span className="text-primary">(일본어)</span> LAB
           </span>
         </div>
@@ -64,25 +64,25 @@ export function Navbar() {
           {user ? (
             <div className="flex items-center gap-2 md:gap-4">
               <div className="hidden sm:flex flex-col items-end">
-                <span className="text-xs font-bold text-zinc-400">성실함 점수</span>
-                <span className="text-sm font-black text-primary px-3 py-1 bg-primary/10 rounded-full">
+                <span className="text-xs font-black text-black dark:text-zinc-600">성실함 점수</span>
+                <span className="text-sm font-black text-primary px-3 py-1 bg-primary/10 rounded-full border border-primary/20">
                   {userData?.attendanceCount || 1}일째 출석 중!
                 </span>
               </div>
-              <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800 p-1.5 md:p-2 rounded-2xl">
-                <div className="w-8 h-8 md:w-10 md:h-10 bg-white dark:bg-zinc-700 rounded-xl flex items-center justify-center text-zinc-400 border border-zinc-200 dark:border-zinc-600">
+              <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800 p-1.5 md:p-2 rounded-2xl border-2 border-black">
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-white dark:bg-zinc-700 rounded-xl flex items-center justify-center text-black border-2 border-black shadow-sm">
                   {user.photoURL ? (
                     <img src={user.photoURL} alt="p" className="w-full h-full rounded-xl object-cover" />
                   ) : (
                     <User size={20} />
                   )}
                 </div>
-                <span className="hidden md:block text-sm font-black pr-2 text-zinc-700 dark:text-zinc-200">
+                <span className="hidden md:block text-sm font-black pr-2 text-black dark:text-zinc-200">
                   {userData?.displayName || user.displayName || '학습자'}님
                 </span>
                 <button 
                   onClick={handleLogout} 
-                  className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl transition-colors text-zinc-500"
+                  className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl transition-colors text-black font-black"
                   aria-label="로그아웃"
                 >
                   <LogOut size={18} />

@@ -103,7 +103,7 @@ function StudyContent() {
             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full"
           />
-          <p className="text-xl font-bold text-zinc-400">데이터를 불러오는 중...</p>
+          <p className="text-xl font-black text-black dark:text-white">데이터를 불러오는 중...</p>
         </div>
       </div>
     );
@@ -115,11 +115,11 @@ function StudyContent() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-4">
           <div className="flex flex-col items-center">
             <div className="flex items-center gap-2 mb-1">
-              <Sparkles size={16} className="text-primary opacity-50" />
-              <span className="text-sm font-black tracking-widest text-zinc-400 uppercase">Mission Level 0{level}</span>
+              <Sparkles size={16} className="text-primary font-black" />
+              <span className="text-sm font-black tracking-widest text-black dark:text-zinc-400 uppercase">Mission Level 0{level}</span>
             </div>
             <div className="text-2xl font-black text-primary tabular-nums">
-              {currentIndex + 1} <span className="text-zinc-300 font-medium">/</span> {cards.length}
+              {currentIndex + 1} <span className="text-black font-black">/</span> {cards.length}
             </div>
           </div>
           
@@ -157,12 +157,12 @@ function StudyContent() {
         </AnimatePresence>
       </main>
 
-      <footer className="py-12 flex flex-col items-center gap-4 text-zinc-400 font-bold">
+      <footer className="py-12 flex flex-col items-center gap-4 text-black font-black">
         <div className="flex items-center gap-6 text-senior-md">
-          <span className="flex items-center gap-2"><span className="text-green-500">✅</span> 외움</span>
-          <span className="flex items-center gap-2"><span className="text-orange-500">❓</span> 헷갈림</span>
+          <span className="flex items-center gap-2"><span className="text-green-600">✅</span> 외움</span>
+          <span className="flex items-center gap-2"><span className="text-orange-600">❓</span> 헷갈림</span>
         </div>
-        <p className="opacity-50">카드를 터치하면 뜻을 볼 수 있습니다.</p>
+        <p className="text-black font-black tracking-tight">카드를 터치하면 뜻을 볼 수 있습니다.</p>
       </footer>
     </div>
   );

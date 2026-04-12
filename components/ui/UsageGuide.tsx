@@ -47,42 +47,42 @@ export default function UsageGuide({ isOpen, onClose }: UsageGuideProps) {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-lg bg-white dark:bg-zinc-900 rounded-[32px] overflow-hidden shadow-2xl"
+            className="relative w-full max-w-lg bg-white dark:bg-zinc-900 rounded-[32px] overflow-hidden shadow-2xl border-2 border-black dark:border-white"
           >
-            <div className="p-8 pb-4 flex justify-between items-center bg-zinc-50 dark:bg-zinc-800/50">
-              <h2 className="text-3xl font-black tracking-tight">처음이신가요? ✨</h2>
+            <div className="p-8 pb-4 flex justify-between items-center bg-white border-b-2 border-black dark:bg-zinc-800/50">
+              <h2 className="text-3xl font-black tracking-tight text-black dark:text-white">처음이신가요? ✨</h2>
               <button 
                 onClick={onClose}
-                className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full transition-colors"
+                className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full transition-colors border-2 border-black"
               >
-                <X size={32} />
+                <X size={32} className="text-black dark:text-white" />
               </button>
             </div>
             
             <div className="p-8 space-y-6 max-h-[70vh] overflow-y-auto">
               {steps.map((step, idx) => (
                 <motion.div 
-                  key={idx}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="flex gap-4 items-start p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/30"
-                >
-                  <div className="shrink-0 p-3 bg-white dark:bg-zinc-800 rounded-xl shadow-sm">
-                    {step.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold mb-1">{step.title}</h3>
-                    <p className="text-zinc-500 dark:text-zinc-400 leading-snug">{step.description}</p>
-                  </div>
-                </motion.div>
-              ))}
+                   key={idx}
+                   initial={{ opacity: 0, x: -20 }}
+                   animate={{ opacity: 1, x: 0 }}
+                   transition={{ delay: idx * 0.1 }}
+                   className="flex gap-4 items-start p-6 rounded-2xl bg-white border-2 border-black dark:bg-zinc-800/30 shadow-sm"
+                 >
+                   <div className="shrink-0 p-3 bg-zinc-100 dark:bg-zinc-800 rounded-xl border-2 border-black shadow-sm">
+                     {step.icon}
+                   </div>
+                   <div>
+                     <h3 className="text-2xl font-black mb-1 text-black dark:text-white">{step.title}</h3>
+                     <p className="text-black dark:text-zinc-400 font-bold leading-tight">{step.description}</p>
+                   </div>
+                 </motion.div>
+               ))}
             </div>
 
             <div className="p-8 pt-4">
               <button
                 onClick={onClose}
-                className="w-full h-16 bg-primary text-white text-xl font-black rounded-2xl hover:brightness-110 transition-all shadow-lg shadow-primary/20"
+                className="w-full h-16 bg-primary text-white text-2xl font-black rounded-2xl border-2 border-black hover:brightness-110 transition-all shadow-lg shadow-primary/20"
               >
                 네, 이해했습니다!
               </button>

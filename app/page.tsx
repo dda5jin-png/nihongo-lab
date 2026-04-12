@@ -76,7 +76,7 @@ export default function Home() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setShowGuide(true)}
-                className="mx-auto px-10 py-6 bg-gradient-to-r from-primary to-orange-500 rounded-[2.5rem] text-xl md:text-3xl font-black text-white shadow-2xl shadow-primary/30 hover:shadow-primary/50 transition-all flex items-center gap-4 border-4 border-white dark:border-zinc-800"
+                className="mx-auto px-10 py-6 bg-gradient-to-r from-primary to-orange-500 rounded-[2.5rem] text-xl md:text-3xl font-bold text-white shadow-2xl shadow-primary/30 hover:shadow-primary/50 transition-all flex items-center gap-4 border-2 border-black dark:border-zinc-800"
               >
                 <HelpCircle size={40} className="animate-bounce" />
                 <span>📢 처음 오신 분! 이용 방법 확인하기</span>
@@ -86,7 +86,7 @@ export default function Home() {
           
           <motion.p 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            className="text-2xl md:text-4xl text-zinc-400 dark:text-zinc-500 font-medium leading-tight max-w-4xl mx-auto"
+            className="text-2xl md:text-4xl text-black dark:text-zinc-500 font-bold leading-tight max-w-4xl mx-auto"
           >
             누구에게나 즐겁고 세상에서 가장 쉬운 <br className="hidden sm:block" />
             일본어 학습 연구소에 오신 것을 환영합니다.
@@ -124,8 +124,8 @@ export default function Home() {
         <section className="space-y-12 pb-24">
           <div className="flex items-end justify-between px-2">
             <div className="space-y-2">
-              <h3 className="text-4xl md:text-5xl font-black tracking-tighter text-zinc-900 dark:text-white">학습 단계 선택</h3>
-              <p className="text-xl md:text-2xl text-zinc-400 font-bold">체계적인 단계별 학습을 제공합니다.</p>
+              <h3 className="text-4xl md:text-5xl font-black tracking-tighter text-black dark:text-white">학습 단계 선택</h3>
+              <p className="text-xl md:text-2xl text-black font-black">체계적인 단계별 학습을 제공합니다.</p>
             </div>
           </div>
           
@@ -134,27 +134,27 @@ export default function Home() {
               <Link 
                 key={mission.id}
                 href={mission.locked ? "#" : `/study?level=${mission.id}`}
-                className={`card-premium group ${mission.locked ? 'opacity-60 grayscale cursor-not-allowed' : 'hover:border-primary/50 hover:bg-white dark:hover:bg-zinc-900 shadow-xl'} flex flex-col md:flex-row md:items-center justify-between gap-8 p-10 md:p-14 border-2 border-zinc-100 dark:border-zinc-800 transition-all`}
+                className={`premium-card group ${mission.locked ? 'opacity-60 grayscale cursor-not-allowed' : 'hover:scale-[1.01] hover:shadow-2xl'} flex flex-col md:flex-row md:items-center justify-between gap-8 p-10 md:p-14 transition-all`}
               >
                 <div className="flex items-start gap-10">
-                  <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center text-3xl font-black ${mission.locked ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400' : 'bg-primary/10 text-primary shadow-inner'}`}>
+                  <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center text-3xl font-black border-2 border-black dark:border-white ${mission.locked ? 'bg-zinc-100 dark:bg-zinc-800 text-black' : 'bg-primary/10 text-primary shadow-inner'}`}>
                     {mission.id}
                   </div>
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
-                      <span className="text-sm md:text-base font-black text-primary tracking-widest uppercase">Lesson 0{mission.id}</span>
-                      {mission.locked && <Lock size={20} className="text-zinc-400" />}
+                      <span className="text-base font-black text-primary tracking-widest uppercase">Lesson 0{mission.id}</span>
+                      {mission.locked && <Lock size={20} className="text-black" />}
                     </div>
-                    <h4 className="text-3xl md:text-4xl font-black tracking-tight text-zinc-800 dark:text-zinc-100">{mission.title}</h4>
-                    <p className="text-xl md:text-2xl text-zinc-400 dark:text-zinc-500 font-medium leading-relaxed">{mission.subtitle}</p>
+                    <h4 className="text-3xl md:text-5xl font-black tracking-tight text-black dark:text-zinc-100">{mission.title}</h4>
+                    <p className="text-xl md:text-2xl text-zinc-800 dark:text-zinc-500 font-bold leading-relaxed">{mission.subtitle}</p>
                   </div>
                 </div>
                 
-                <div className={`px-10 h-20 rounded-3xl flex items-center justify-center gap-3 text-xl font-black transition-all ${mission.locked ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400' : 'bg-zinc-100 dark:bg-zinc-800 text-primary group-hover:bg-primary group-hover:text-white'}`}>
+                <div className={`px-10 h-20 rounded-3xl flex items-center justify-center gap-3 text-2xl font-black border-2 border-black transition-all ${mission.locked ? 'bg-zinc-100 dark:bg-zinc-800 text-black' : 'bg-white dark:bg-zinc-800 text-primary group-hover:bg-primary group-hover:text-white'}`}>
                   {mission.locked ? '준비 중' : (
                     <>
                       <span>학습 시작</span>
-                      <ChevronRight size={28} />
+                      <ChevronRight size={32} />
                     </>
                   )}
                 </div>
