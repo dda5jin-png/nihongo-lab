@@ -3,11 +3,53 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, BookOpenText, LibraryBig } from "lucide-react";
+import { Sparkles, BookOpenText, LibraryBig, CheckCircle2, ChevronRight, RotateCcw } from "lucide-react";
 import FlashCard from "@/components/ui/FlashCard";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
+
+type Card = {
+  id: string;
+  japanese: string;
+  reading: string;
+  meaning: string;
+};
+
+const cardsByLevel: Record<string, Card[]> = {
+  "1": [
+    { id: "c1", japanese: "こんにちは", reading: "Konnichiwa", meaning: "안녕하세요" },
+    { id: "c2", japanese: "ありがとうございます", reading: "Arigatou gozaimasu", meaning: "감사합니다" },
+    { id: "c3", japanese: "すみません", reading: "Sumimasen", meaning: "미안합니다 / 실례합니다" },
+    { id: "c4", japanese: "さようなら", reading: "Sayounara", meaning: "안녕히 가세요 / 안녕히 계세요" },
+    { id: "c5", japanese: "はい", reading: "Hai", meaning: "네" },
+  ],
+  "2": [
+    { id: "c6", japanese: "おはようございます", reading: "Ohayou gozaimasu", meaning: "좋은 아침입니다" },
+    { id: "c7", japanese: "こんばんは", reading: "Konbanwa", meaning: "안녕하세요 / 좋은 저녁입니다" },
+    { id: "c8", japanese: "はじめまして", reading: "Hajimemashite", meaning: "처음 뵙겠습니다" },
+    { id: "c9", japanese: "よろしくお願いします", reading: "Yoroshiku onegaishimasu", meaning: "잘 부탁드립니다" },
+    { id: "c10", japanese: "お元気ですか", reading: "Ogenki desu ka", meaning: "잘 지내세요?" },
+  ],
+  "3": [
+    { id: "c11", japanese: "いくらですか", reading: "Ikura desu ka", meaning: "얼마예요?" },
+    { id: "c12", japanese: "これは何ですか", reading: "Kore wa nan desu ka", meaning: "이것은 무엇인가요?" },
+    { id: "c13", japanese: "もう一度お願いします", reading: "Mou ichido onegaishimasu", meaning: "한 번 더 부탁드립니다" },
+    { id: "c14", japanese: "わかりました", reading: "Wakarimashita", meaning: "알겠습니다" },
+    { id: "c15", japanese: "大丈夫です", reading: "Daijoubu desu", meaning: "괜찮습니다" },
+  ],
+};
+
+const maxLevel = Object.keys(cardsByLevel).length;
+
+function shuffleCards(cards: Card[]) {
+  const next = [...cards];
+  for (let index = next.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [next[index], next[randomIndex]] = [next[randomIndex], next[index]];
+  }
+  return next;
+}
 
 function StudyContent() {
   const searchParams = useSearchParams();
@@ -17,15 +59,20 @@ function StudyContent() {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(true);
   const [savedCardIds, setSavedCardIds] = useState<string[]>([]);
+  const [learnedCardIds, setLearnedCardIds] = useState<string[]>([]);
+  const [orderedCards, setOrderedCards] = useState<Card[]>(cardsByLevel[level] || cardsByLevel["1"]);
+  const [showCompletionModal, setShowCompletionModal] = useState(false);
+  const [completionReason, setCompletionReason] = useState<"finished" | "qualified">("finished");
   const router = useRouter();
-  
-  const cards = [
-    { id: "c1", japanese: "こんにちは", reading: "Konnichiwa", meaning: "안녕하세요" },
-    { id: "c2", japanese: "ありがとう", reading: "Arigatou", meaning: "고맙습니다" },
-    { id: "c3", japanese: "すみません", reading: "Sumimasen", meaning: "미안합니다 / 실례합니다" },
-    { id: "c4", japanese: "さようなら", reading: "Sayounara", meaning: "작별 인사 (안녕히 가세요)" },
-    { id: "c5", japanese: "はい", reading: "Hai", meaning: "네" },
-  ];
+  const baseCards = cardsByLevel[level] || cardsByLevel["1"];
+  const nextLevel = Number(level) < maxLevel ? String(Number(level) + 1) : null;
+
+  useEffect(() => {
+    setOrderedCards(shuffleCards(baseCards));
+    setCurrentIndex(0);
+    setLearnedCardIds([]);
+    setShowCompletionModal(false);
+  }, [level]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -50,6 +97,18 @@ function StudyContent() {
       if (docSnap.exists()) {
         const data = docSnap.data();
         setCurrentIndex(data.lastIndex || 0);
+        if (Array.isArray(data.learnedCardIds)) {
+          setLearnedCardIds(data.learnedCardIds);
+        }
+        if (Array.isArray(data.orderedCardIds) && data.orderedCardIds.length === baseCards.length) {
+          const cardMap = new Map(baseCards.map((card) => [card.id, card]));
+          const restoredCards = data.orderedCardIds
+            .map((id: string) => cardMap.get(id))
+            .filter(Boolean) as Card[];
+          if (restoredCards.length === baseCards.length) {
+            setOrderedCards(restoredCards);
+          }
+        }
       }
     } catch (error) {
       console.error("Progress Load Error:", error);
@@ -80,6 +139,8 @@ function StudyContent() {
         userId: user.uid,
         level: level,
         lastIndex: index,
+        learnedCardIds,
+        orderedCardIds: orderedCards.map((card) => card.id),
         updatedAt: new Date().toISOString()
       }, { merge: true });
     } catch (error) {
@@ -88,18 +149,31 @@ function StudyContent() {
   };
 
   useEffect(() => {
-    const newProgress = ((currentIndex + 1) / cards.length) * 100;
+    const newProgress = ((currentIndex + 1) / orderedCards.length) * 100;
     setProgress(newProgress);
     if (user) saveProgress(currentIndex);
-  }, [currentIndex, cards.length, user]);
+  }, [currentIndex, orderedCards, user, learnedCardIds]);
 
-  const currentCard = cards[currentIndex];
+  const currentCard = orderedCards[currentIndex];
   const isCurrentCardSaved = savedCardIds.includes(currentCard.id);
+  const qualifiedCardIds = new Set([...savedCardIds, ...learnedCardIds]);
+  const isLevelQualified = qualifiedCardIds.size >= Math.min(5, orderedCards.length);
+
+  useEffect(() => {
+    if (!showCompletionModal && isLevelQualified) {
+      setCompletionReason("qualified");
+      setShowCompletionModal(true);
+    }
+  }, [isLevelQualified, showCompletionModal]);
 
   const handleNext = () => {
-    if (currentIndex < cards.length - 1) {
+    if (currentIndex < orderedCards.length - 1) {
       setCurrentIndex(currentIndex + 1);
+      return;
     }
+
+    setCompletionReason(isLevelQualified ? "qualified" : "finished");
+    setShowCompletionModal(true);
   };
 
   const handlePrev = () => {
@@ -109,6 +183,10 @@ function StudyContent() {
   };
 
   const handleStatusChange = (status: string) => {
+    if (status === "learned") {
+      setLearnedCardIds((prev) => (prev.includes(currentCard.id) ? prev : [...prev, currentCard.id]));
+    }
+
     if (status === "learned" || status === "review") {
       setTimeout(handleNext, 800);
     }
@@ -143,6 +221,23 @@ function StudyContent() {
     } catch (error) {
       console.error("Saved Card Toggle Error:", error);
     }
+  };
+
+  const handleRestartLevel = () => {
+    const reshuffledCards = shuffleCards(baseCards);
+    setOrderedCards(reshuffledCards);
+    setCurrentIndex(0);
+    setLearnedCardIds([]);
+    setShowCompletionModal(false);
+  };
+
+  const handleGoToNextLevel = () => {
+    setShowCompletionModal(false);
+    if (nextLevel) {
+      router.push(`/study?level=${nextLevel}`);
+      return;
+    }
+    router.push("/vault");
   };
 
   if (loading) {
@@ -180,7 +275,7 @@ function StudyContent() {
               <span className="text-sm font-black tracking-widest uppercase" style={{ color: "var(--text-muted)" }}>Mission Level 0{level}</span>
             </div>
             <div className="text-xl md:text-2xl font-black text-primary tabular-nums">
-              {currentIndex + 1} <span className="font-black" style={{ color: "var(--text-soft)" }}>/</span> {cards.length}
+              {currentIndex + 1} <span className="font-black" style={{ color: "var(--text-soft)" }}>/</span> {orderedCards.length}
             </div>
           </div>
           
@@ -214,6 +309,7 @@ function StudyContent() {
               japanese={currentCard.japanese}
               reading={currentCard.reading}
               meaning={currentCard.meaning}
+              progressLabel={`Level 0${level} Card ${currentIndex + 1}`}
               saved={isCurrentCardSaved}
               canSave={Boolean(user)}
               onStatusChange={handleStatusChange}
@@ -233,6 +329,64 @@ function StudyContent() {
         </div>
         <p className="font-black tracking-tight" style={{ color: "var(--text-muted)" }}>카드를 터치하면 뜻을 볼 수 있습니다.</p>
       </footer>
+
+      <AnimatePresence>
+        {showCompletionModal ? (
+          <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+            <motion.button
+              type="button"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowCompletionModal(false)}
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.94 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.96 }}
+              className="relative w-full max-w-xl rounded-[2rem] premium-card p-6 md:p-8"
+            >
+              <div className="space-y-5">
+                <div className="luxury-label">
+                  <CheckCircle2 size={14} className="text-primary" />
+                  Level Complete
+                </div>
+                <div className="space-y-3">
+                  <h2 className="text-3xl md:text-4xl font-black balanced-copy" style={{ color: "var(--text-strong)" }}>
+                    {completionReason === "qualified"
+                      ? `레벨 ${level} 기준을 채웠어요`
+                      : `레벨 ${level} 카드가 모두 끝났어요`}
+                  </h2>
+                  <p className="text-base md:text-lg font-medium leading-[1.8]" style={{ color: "var(--text-muted)" }}>
+                    {nextLevel
+                      ? `외웠거나 보관한 카드가 ${qualifiedCardIds.size}개예요. 다음 레벨로 넘어가서 새 표현을 이어서 배워볼까요?`
+                      : "마지막 레벨까지 완료했어요. 보관함에서 저장한 카드들을 다시 복습할 수 있어요."}
+                  </p>
+                </div>
+                <div className="grid gap-3">
+                  <button
+                    onClick={handleGoToNextLevel}
+                    className="luxury-button w-full h-14 rounded-2xl border bg-primary text-white font-black flex items-center justify-center gap-2"
+                    style={{ borderColor: "color-mix(in srgb, var(--primary) 45%, white)" }}
+                  >
+                    <span>{nextLevel ? `다음 레벨 ${nextLevel}로 이동` : "보관함으로 이동"}</span>
+                    <ChevronRight size={18} />
+                  </button>
+                  <button
+                    onClick={handleRestartLevel}
+                    className="w-full h-14 rounded-2xl border font-black flex items-center justify-center gap-2"
+                    style={{ background: "linear-gradient(180deg, var(--surface-strong), var(--surface))", color: "var(--text-strong)", borderColor: "var(--border)" }}
+                  >
+                    <RotateCcw size={18} />
+                    카드 다시 섞어서 복습하기
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }

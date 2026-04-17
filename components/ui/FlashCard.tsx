@@ -8,6 +8,7 @@ interface FlashCardProps {
   japanese: string;
   reading: string;
   meaning: string;
+  progressLabel?: string;
   saved?: boolean;
   canSave?: boolean;
   onNext?: () => void;
@@ -20,6 +21,7 @@ export default function FlashCard({
   japanese,
   reading,
   meaning,
+  progressLabel,
   saved = false,
   canSave = false,
   onNext,
@@ -80,6 +82,14 @@ export default function FlashCard({
           animate={{ opacity: isFlipped ? 0.2 : 0.45, x: isFlipped ? -18 : -10 }}
           transition={cardTransition}
         />
+        {progressLabel ? (
+          <div
+            className="absolute top-4 left-4 md:top-8 md:left-8 px-3 py-2 rounded-full text-[11px] md:text-xs font-black uppercase tracking-[0.22em] z-10"
+            style={{ backgroundColor: "rgba(255,255,255,0.75)", color: "var(--text-soft)", border: "1px solid var(--border)" }}
+          >
+            {progressLabel}
+          </div>
+        ) : null}
         <AnimatePresence mode="wait">
           {!isFlipped ? (
             <motion.div
@@ -90,13 +100,16 @@ export default function FlashCard({
               transition={cardTransition}
               className="absolute inset-0 flex flex-col items-center justify-center p-6 sm:p-10 md:p-12 text-center"
             >
-              <h2 className="text-5xl sm:text-7xl md:text-9xl font-black leading-tight font-display mb-8 md:mb-12 break-keep" style={{ color: "var(--text-strong)" }}>
+              <h2
+                className="safe-wrap balanced-copy text-4xl sm:text-6xl md:text-8xl xl:text-9xl font-black leading-[1.08] font-display mb-8 md:mb-12 max-w-[92%]"
+                style={{ color: "var(--text-strong)" }}
+              >
                 {japanese}
               </h2>
               
               <div className="flex flex-col items-center gap-3 md:gap-4">
                 <div className="w-16 h-2 rounded-full bg-primary/70" />
-                <p className="text-lg sm:text-xl md:text-2xl font-semibold animate-pulse" style={{ color: "var(--text-muted)" }}>
+                <p className="balanced-copy text-base sm:text-lg md:text-2xl font-semibold animate-pulse max-w-[24rem]" style={{ color: "var(--text-muted)" }}>
                   터치해서 뜻 확인하기
                 </p>
               </div>
@@ -114,12 +127,15 @@ export default function FlashCard({
               <div className="space-y-4 md:space-y-6 mb-8 md:mb-12">
                 <div className="space-y-2">
                   <span className="text-[11px] sm:text-sm font-black tracking-[0.3em] uppercase" style={{ color: "var(--text-soft)" }}>일본어 발음</span>
-                  <p className="text-2xl sm:text-3xl md:text-5xl font-semibold font-display italic break-words" style={{ color: "var(--text-muted)" }}>
+                  <p className="safe-wrap balanced-copy text-xl sm:text-2xl md:text-4xl font-semibold font-display italic max-w-[92%] mx-auto" style={{ color: "var(--text-muted)" }}>
                     {reading}
                   </p>
                 </div>
                 <span className="text-sm sm:text-xl font-black tracking-[0.2em] uppercase" style={{ color: "var(--text-soft)" }}>한국어 뜻</span>
-                <p className="text-4xl sm:text-6xl md:text-9xl font-black leading-tight drop-shadow-md break-keep" style={{ color: "var(--text-strong)" }}>
+                <p
+                  className="safe-wrap balanced-copy text-3xl sm:text-5xl md:text-7xl xl:text-8xl font-black leading-[1.12] drop-shadow-md max-w-[94%] mx-auto"
+                  style={{ color: "var(--text-strong)" }}
+                >
                   {meaning}
                 </p>
               </div>

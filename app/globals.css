@@ -267,6 +267,15 @@ h5, h6 {
   pointer-events: none;
 }
 
+.balanced-copy {
+  text-wrap: balance;
+}
+
+.safe-wrap {
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
 .hero-orb {
   position: absolute;
   border-radius: 9999px;
